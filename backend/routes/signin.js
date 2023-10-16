@@ -82,8 +82,9 @@ const findUser = (username) => {
 }
 
 router.post('/logout', (req, res) => {
+    console.log("logout: "+res.cookie('jwt', '', { maxAge: 0 }))
     res.cookie('jwt', '', { maxAge: 0 })
-    //console.log(res.cookie('jwt', '', { maxAge: 0 }))
+    //console.log("logout: "+res.cookie('jwt', '', { maxAge: 0 }))
     res.send({
         message: 'logout success'
     })

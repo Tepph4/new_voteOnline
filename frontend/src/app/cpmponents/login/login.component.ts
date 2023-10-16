@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from './../../services/login/login.service';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { NavbarComponent } from './../navbar/navbar.component';
+
 
 @Component({
   selector: 'app-login',
@@ -14,8 +15,9 @@ export class LoginComponent implements OnInit {
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required])
   })
-  constructor(private http: HttpClient, private lg: LoginService, private router: Router) { }
+  constructor( private lg: LoginService, private router: Router) { }
   ngOnInit(): void {
+    
   }
   get username() { return this.loginForm.get('username'); }
 
@@ -24,10 +26,12 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.lg.login(this.loginForm.value).subscribe(        
         data => {
-          alert('Login successfully');       
+          alert('Login successfully');    
+          console.log(data.username) 
           
-          console.log(data.username)          
-          this.router.navigate(['home']);
+          this.router.navigate(['home']).then(() => {
+            location.reload();
+          });
         },
         err => {
           alert('Cannot Login');

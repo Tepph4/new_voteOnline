@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import { Emitter } from 'src/app/emitter/emitter';
 
 @Component({
@@ -7,19 +7,23 @@ import { Emitter } from 'src/app/emitter/emitter';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit{
   authenticated = false
   resule?: any
-  massage?: string
+  massage?: string | null= null;
   role?: string
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,) { }
+ 
   ngOnInit(): void {
+    console.log("ngOnInit");
     Emitter.authEmitter.subscribe((auth: boolean) => {
-      this.authenticated = auth;
+      this.authenticated = auth;     
     }   
-    );    
-    this.getItem();
-  }
+    );     
+    //this.autoRefreshPage();
+    this.getItem();      
+       
+  }  
   getItem(){
     this.http.get('http://localhost:3000/user/getUser', {
       withCredentials: true
@@ -35,12 +39,11 @@ export class NavbarComponent implements OnInit {
         Emitter.authEmitter.emit(false)
       }
     )
-  }
+  }  
   logout(): void {
     console.log('logout');
-    localStorage.removeItem('token');
-    localStorage.removeItem('data');
-    localStorage.removeItem('jwt');
+    //localStorage.removeItem('token');
+    //localStorage.removeItem('data');    
     this.http.post<any>('http://localhost:3000/signout/logout', {}, { withCredentials: true })
       .subscribe(() => {
         this.authenticated = false;

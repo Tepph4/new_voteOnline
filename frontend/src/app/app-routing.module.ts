@@ -20,9 +20,12 @@ import { EditcandidatesComponent } from "./cpmponents/editcandidates/editcandida
 import { EditeventComponent } from "./cpmponents/editevent/editevent.component";
 import { UserresetpasswordComponent } from "./cpmponents/userresetpassword/userresetpassword.component";
 import { AdminEditUesrComponent } from "./cpmponents/admin-edit-uesr/admin-edit-uesr.component";
+import { MainComponent } from "./cpmponents/main/main.component";
+import { NavbarComponent } from "./cpmponents/navbar/navbar.component";
 
 const routes: Routes = [
-    { path: 'home', component: HomeComponent },
+    { path: 'home', component: MainComponent },  
+    { path: 'navbar', component: NavbarComponent },      
     { path: 'login', component: LoginComponent },
     { path: 'logout', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
