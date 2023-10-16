@@ -1,0 +1,26 @@
+///////  <h2>โหวตประธาน นร.</h2>
+  <h5>รายละเอียด :</h5>
+  <h5 class="text-primary">เปิดระบบ 00/00/0000 ถึง 00/00/0000</h5>
+  <h5>สถานะ : <button type="button" class="btn btn-success">OPEN</button></h5>
+  <table class="table table-striped">
+    <thead>
+        <tr>
+            <th>หมายเลข</th>
+            <!-- <th>IMG</th> -->
+            <th width="700">ชื่อ</th>
+            <th>คะแนนรวม</th>
+        </tr>
+    </thead>
+    <tbody *ngFor="let result of test">
+        <tr >
+            <td>{{ result.resultnew[0][0].id }}</td>
+            <td>
+              <div>ชื่อ-สกุล : {{ result.resultnew[0][0].firstname + ' ' + result.resultnew[0][0].lastname }}</div>
+              <div>แนะนำตัว : "{{ result.resultnew[0][0].describe }}"</div>
+            </td>
+            <td>
+              <div >{{ result.scoreCount }}</div>
+            </td>            
+          </tr>      
+    </tbody>
+</table>
