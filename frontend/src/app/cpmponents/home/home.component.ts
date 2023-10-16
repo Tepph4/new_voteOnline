@@ -8,7 +8,7 @@ import { Emitter } from 'src/app/emitter/emitter';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit{
-
+  resule?:any
   massage?: string
   constructor(private http: HttpClient,private router: Router) { }
   ngOnInit(): void {
@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit{
       withCredentials:true
     }).subscribe((res:any)=>{
       this.massage = `Hi ${res.username} id: ${res.id} role: ${res.role}`;
+      this.resule = `${res.image}`
       Emitter.authEmitter.emit(true)
       
     },
