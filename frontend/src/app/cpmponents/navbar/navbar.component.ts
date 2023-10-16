@@ -11,6 +11,7 @@ export class NavbarComponent implements OnInit {
   authenticated = false
   resule?: any
   massage?: string
+  role?: string
   constructor(private http: HttpClient) { }
   ngOnInit(): void {
     Emitter.authEmitter.subscribe((auth: boolean) => {
@@ -24,7 +25,8 @@ export class NavbarComponent implements OnInit {
       withCredentials: true
     }).subscribe((res: any) => {
       this.massage = `Hi ${res.username}..`;
-      this.resule = `${res.image}`      
+      this.resule = `${res.image}`;
+      this.role = `${res.role}`;     
       Emitter.authEmitter.emit(true)
 
     },
@@ -36,10 +38,16 @@ export class NavbarComponent implements OnInit {
   }
   logout(): void {
     console.log('logout');
+    localStorage.removeItem('token');
+    localStorage.removeItem('data');
+    localStorage.removeItem('jwt');
     this.http.post<any>('http://localhost:3000/signout/logout', {}, { withCredentials: true })
       .subscribe(() => {
         this.authenticated = false;
         console.log(this.authenticated);
+        setTimeout(() => {
+          location.reload();
+        }, 10);
 
       },
         (error) => {
@@ -48,4 +56,5 @@ export class NavbarComponent implements OnInit {
       )
 
   }
+
 }
