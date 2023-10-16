@@ -7,27 +7,45 @@ import { Emitter } from 'src/app/emitter/emitter';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit{
-  authenticated=false
-
-  constructor(private http: HttpClient){}
+export class NavbarComponent implements OnInit {
+  authenticated = false
+  resule?: any
+  massage?: string
+  constructor(private http: HttpClient) { }
   ngOnInit(): void {
-      Emitter.authEmitter.subscribe((auth:boolean)=>{
-        this.authenticated=auth
-  })  
+    Emitter.authEmitter.subscribe((auth: boolean) => {
+      this.authenticated = auth;
+    }   
+    );    
+    this.getItem();
   }
-  logout():void{
-    console.log('logout');    
-     this.http.post<any>('http://localhost:3000/signout/logout',{},{withCredentials:true})
-    .subscribe(()=> 
-    {
-      this.authenticated = false ;
-      console.log(this.authenticated); 
+  getItem(){
+    this.http.get('http://localhost:3000/user/getUser', {
+      withCredentials: true
+    }).subscribe((res: any) => {
+      this.massage = `Hi ${res.username}..`;
+      this.resule = `${res.image}`      
+      Emitter.authEmitter.emit(true)
 
-    },    
-    (error) => {
-        console.error('Error during logout:', error);
+    },
+      err => {
+        this.massage = "You are not login";
+        Emitter.authEmitter.emit(false)
       }
-    ) 
+    )
+  }
+  logout(): void {
+    console.log('logout');
+    this.http.post<any>('http://localhost:3000/signout/logout', {}, { withCredentials: true })
+      .subscribe(() => {
+        this.authenticated = false;
+        console.log(this.authenticated);
+
+      },
+        (error) => {
+          console.error('Error during logout:', error);
+        }
+      )
+
   }
 }
